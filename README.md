@@ -12,7 +12,7 @@ export GOPROXY=https://mirrors.aliyun.com/goproxy/
 
 ### 编译
 
-git clone https://github.com/hongyuefan/hrserver.git
+git clone https://github.com/gogoflying/hrserver.git
 
 cd hrserver/cmd
 
