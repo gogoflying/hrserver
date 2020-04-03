@@ -1,0 +1,9 @@
+{
+	"port":"8080",
+	"prof":"10006",
+	"logdir":"./logs",
+	"https":false,
+	"https_key":"ARthitTObYeqbmIgbCnHlpDP",
+	"https_cert":"CxEGjfrOqcZuF6GsqLTIUdlLXg8tO8OV",
+	"db_url":"root:@tcp(127.0.0.1:3306)/tupian?charset=utf8"
+}
