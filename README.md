@@ -18,11 +18,15 @@ cd hrserver/cmd
 
 go build
 
-### 运行
-
-./cmd -c config.json
-
 ### 配置文件
 
 如果不需要连接数据库，编辑字段为空：
 "db_url":""
+
+### 运行
+
+./cmd -c config.json
+
+### 测试
+
+http://127.0.0.1:8080/v1/get
