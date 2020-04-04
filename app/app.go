@@ -3,11 +3,12 @@ package app
 import (
 	"fmt"
 	"hrserver/api"
+	"hrserver/module"
 	"hrserver/util/config"
 	"hrserver/util/log"
 	"net/http"
 
-	"github.com/astaxie/beego/orm"
+	//"github.com/astaxie/beego/orm"
 	gin "github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -57,7 +58,10 @@ func (app *App) OnStart(c *config.Config) error {
 	}
 
 	if len(g_ConfigData.SqlConn) > 0 {
-		if err := orm.RegisterDataBase("default", "mysql", g_ConfigData.SqlConn); err != nil {
+		//if err := orm.RegisterDataBase("default", "mysql", g_ConfigData.SqlConn); err != nil {
+		//	return err
+		//}
+		if err:=models.InitDatabase(g_ConfigData.SqlConn);err != nil{
 			return err
 		}
 	}

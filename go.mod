@@ -15,4 +15,6 @@ require (
 	golang.org/x/crypto v0.0.0-20200323165209-0ec3e9974c59
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
+	xorm.io/builder v0.3.7
+	xorm.io/xorm v1.0.1
 )

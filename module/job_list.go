@@ -2,11 +2,27 @@ package models
 
 import (
 	"errors"
+	"github.com/astaxie/beego/orm"
 	"reflect"
 	"strings"
 
-	"github.com/go-xorm/xorm"
+	"xorm.io/builder"
+	"xorm.io/xorm"
 )
+
+var MasterDb *xorm.Engine
+
+func InitDatabase(db_url string) error {
+	var err error
+	if MasterDb, err = xorm.NewEngine("mysql", db_url); err != nil {
+		return err
+	}
+	//MasterDb.SetConnMaxLifetime(config.GetOpts().Mysql.ConnMaxLifetime)
+	MasterDb.SetMaxOpenConns(1000)
+	MasterDb.SetMaxIdleConns(10)
+
+	return nil
+}
 
 type Joblist struct {
 	Id   int64  `orm:"column(id);auto"`
@@ -18,27 +34,49 @@ func (t *Joblist) TableName() string {
 	return "job_list"
 }
 
-func init() {
-	orm.RegisterModel(new(Joblist))
-}
+//func init() {
+//	orm.RegisterModel(new(Joblist))
+//}
 
 // func GetUserByNamePass(user *Joblist) error {
 // 	return orm.NewOrm().Read(user, "name", "pass")
 // }
 
 func AddJoblist(job *Joblist) error {
-	_, err := orm.NewOrm().Insert(job)
+	_, err := MasterDb.InsertOne(job)
+	//_, err := orm.NewOrm().Insert(job)
 	return err
 }
 
 func DeleteJob(job *Joblist) error {
-	_, err := orm.NewOrm().Delete(job)
+	//语句示例，未执行
+	job.Id = 2
+	_, err := MasterDb.Delete(job)
+	//_, err := orm.NewOrm().Delete(job)
 	return err
 }
 
 func UpdateJobById(job *Joblist) error {
-	_, err := orm.NewOrm().Update(job)
+	//语句示例，未执行
+	_, err := MasterDb.Delete(job)
+	//_, err := orm.NewOrm().Update(job)
 	return err
+}
+
+func SearchJob() error {
+	//语句示例，未执行
+	sql := builder.Dialect(builder.MYSQL).
+		Select("*").
+		From("joblist").
+		Where(builder.Eq{
+			".is_del": 1,
+		}).And(builder.In("id", 1)).OrderBy("aaa ASC")
+
+	var ps []Joblist
+	if err := MasterDb.SQL(sql).Find(&ps); err != nil {
+
+	}
+	return nil
 }
 
 //根据条件筛选数据
@@ -49,8 +87,8 @@ func UpdateJobById(job *Joblist) error {
 //offset 游标 ，表示从搜索数据中的第几条开始，常用来分页
 //limit  筛选数量
 func GetJobs(keys string, upSala, lowSala int64, query map[string]string, fields []string, sortby []string, order []string, offset int64, limit int64) (ml []interface{}, err error) {
-	cond := orm.NewCondition()
-	cond.Or()
+	//cond := orm.NewCondition()
+	//cond.Or()
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(Joblist))
 	// query k=v
